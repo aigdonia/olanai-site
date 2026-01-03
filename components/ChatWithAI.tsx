@@ -1,37 +1,85 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2 } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Send, Bot, User, Loader2, CheckCircle2, RotateCcw } from 'lucide-react';
+import { useChat, fetchServerSentEvents, type UIMessage } from '@tanstack/ai-react';
+import { captureLeadTool, type CaptureLeadInput } from '../src/tools/definitions';
 
-interface Message {
-  id: string;
-  text: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-}
+// Client-side tool for UI feedback
+const captureLeadClient = captureLeadTool.client(async (rawArgs) => {
+  const args = rawArgs as CaptureLeadInput;
+  // Client-side feedback - the actual capture happens on server
+  return {
+    success: true,
+    message: `Information captured for ${args.name}`,
+    leadId: undefined,
+  };
+});
+
+// Helper to extract text from message parts
+const getMessageText = (message: UIMessage): string => {
+  if (!message.parts) return '';
+  return message.parts
+    .filter((part): part is { type: 'text'; content: string } => part.type === 'text')
+    .map((part) => part.content)
+    .join('');
+};
+
+// Check if message has tool calls
+const hasToolCall = (message: UIMessage): boolean => {
+  if (!message.parts) return false;
+  return message.parts.some((part) => part.type === 'tool-call');
+};
 
 export const ChatWithAI: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: "Hi! I'm Olan. I help businesses go digital without the chaos. Tell me about your project — whether it's a new product, internal tool, or a team that needs support — and I'll help you figure out if we're a good fit.",
-      sender: 'ai',
-      timestamp: new Date()
-    }
-  ]);
   const [inputText, setInputText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [leadCaptured, setLeadCaptured] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToTop = () => {
+  // Initial greeting message
+  const initialMessage: UIMessage = {
+    id: 'greeting',
+    role: 'assistant',
+    parts: [{
+      type: 'text',
+      content: "Hi! I'm Olan. I help businesses go digital without the chaos. Tell me about your project — whether it's a new product, internal tool, or a team that needs support — and I'll help you figure out if we're a good fit."
+    }],
+    createdAt: new Date(),
+  };
+
+  // TanStack AI useChat hook with SSE streaming
+  const {
+    messages,
+    sendMessage,
+    isLoading,
+    error,
+    reload,
+    setMessages,
+  } = useChat({
+    connection: fetchServerSentEvents('http://localhost:3001/api/chat'),
+    initialMessages: [initialMessage],
+    tools: [captureLeadClient],
+    onFinish: (message) => {
+      // Check if lead was captured in this message
+      if (message.parts?.some((part) =>
+        part.type === 'tool-call' && part.name === 'capture_lead'
+      )) {
+        setLeadCaptured(true);
+      }
+    },
+    onError: (err) => {
+      console.error('Chat error:', err);
+    },
+  });
+
+  const scrollToTop = useCallback(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = 0;
     }
-  };
+  }, []);
 
   useEffect(() => {
     scrollToTop();
-  }, [messages]);
+  }, [messages, scrollToTop]);
 
   // Listen for chat prompt from Features "Learn more" links
   useEffect(() => {
@@ -46,65 +94,9 @@ export const ChatWithAI: React.FC = () => {
 
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputText.trim(),
-      sender: 'user',
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+    const text = inputText.trim();
     setInputText('');
-    setIsLoading(true);
-
-    // Simulate AI response (replace with actual API call)
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: generateAIResponse(userMessage.text),
-        sender: 'ai',
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, aiResponse]);
-      setIsLoading(false);
-    }, 1500);
-  };
-
-  const generateAIResponse = (userInput: string): string => {
-    const input = userInput.toLowerCase();
-
-    // Feature-specific prompts (from "Learn more" links)
-    if (input.includes('saas') && input.includes('scratch')) {
-      return "We handle the full journey — from initial architecture to production deployment. For SaaS, that means auth, billing, multi-tenancy, APIs, the works. For mobile, we build native-quality apps with shared logic where it makes sense. You get milestone-based delivery, so you're never in the dark. What's the product you're envisioning?";
-    } else if (input.includes('internal tools') || input.includes('automation')) {
-      return "Most teams are drowning in disconnected apps and manual processes. We build custom internal tools that tie everything together — task orchestration, dashboards, data pipelines, workflow automation. The goal is fewer apps, less clutter, better decisions. What's eating up your team's time right now?";
-    } else if (input.includes('integrate ai') || input.includes('ai into')) {
-      return "We integrate AI where it creates real value — not just chatbots for the sake of it. Think intelligent document processing, predictive analytics, automated workflows, or LLM-powered features in your product. We architect it properly so it's maintainable, not a black box. What problem are you trying to solve with AI?";
-    } else if (input.includes('existing') && input.includes('team')) {
-      return "We embed with your engineers, not replace them. That means working in your codebase, your processes, your tools. We can accelerate delivery on a specific initiative, introduce AI tooling to boost productivity, or help level up your practices. What's the biggest bottleneck your team is facing?";
-    }
-    // General prompts
-    else if (input.includes('pricing') || input.includes('cost') || input.includes('price') || input.includes('budget')) {
-      return "Projects start at $5,000 and typically range up to $50K depending on scope. We work on a milestone basis — you pay for deliverables, not hours. No surprises, no retainers. Would you like to tell me about your project so I can give you a better sense of scope?";
-    } else if (input.includes('vibe') || input.includes('cursor') || input.includes('copilot')) {
-      return "Vibe coding tools are great for prototypes, but they create technical debt fast. We use AI as a tool, not a replacement for engineering judgment. Real engineers review, architect, and ensure what gets built is maintainable. That's how you get AI speed without the chaos.";
-    } else if (input.includes('project') || input.includes('build') || input.includes('develop') || input.includes('app') || input.includes('saas') || input.includes('mobile')) {
-      return "We build everything from MVPs to full-scale SaaS and mobile apps. The process starts with a discovery call where we scope your needs, then we deliver in milestones so you see progress and can give feedback. What kind of project are you thinking about?";
-    } else if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
-      return "Hey! Good to meet you. I'm here to help figure out if OlanAI is the right fit for your project. What are you working on?";
-    } else if (input.includes('team') || input.includes('experience') || input.includes('who')) {
-      return "We're engineers who've built large-scale mobile apps and SaaS products. We use the same AI-powered engineering approach to build our own internal tooling — so we know it works before we use it on client projects. No vibe-coded chaos.";
-    } else if (input.includes('tool') || input.includes('internal') || input.includes('automat') || input.includes('existing') || input.includes('integrat')) {
-      return "We work with what you have. If your current tools work, we extend them. If they don't, we replace only what's needed. The goal is to protect your investments and maximize what's already in place before adding anything new.";
-    } else if (input.includes('how') || input.includes('process') || input.includes('work')) {
-      return "Simple: Discovery → Proposal → Build → Launch. We scope your project, give you a clear milestone breakdown with fixed costs, then deliver in iterations. You pay per milestone, own everything we build, and we stick around post-launch to make sure it works.";
-    } else if (input.includes('ai')) {
-      return "We integrate AI where it matters — not as a gimmick, but as infrastructure. Whether it's LLMs, automation, or predictive features, we build it with proper engineering so it actually works in production. What are you looking to do with AI?";
-    } else {
-      return "We help businesses go digital — building from scratch or extending what you already have. We protect your current investments and only add what's truly needed. Real engineers, AI-powered delivery, milestone-based pricing. What's on your mind?";
-    }
+    await sendMessage(text);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -113,6 +105,11 @@ export const ChatWithAI: React.FC = () => {
       e.stopPropagation();
       handleSendMessage();
     }
+  };
+
+  const handleClearChat = () => {
+    setMessages([initialMessage]);
+    setLeadCaptured(false);
   };
 
   return (
@@ -127,6 +124,17 @@ export const ChatWithAI: React.FC = () => {
             Tell Olan about your project. Get a sense of scope, approach, and whether we're the right fit — no commitment required.
           </p>
         </div>
+
+        {/* Lead Captured Success Banner */}
+        {leadCaptured && (
+          <div className="mb-6 bg-green-500/10 border border-green-500/30 rounded-2xl p-4 flex items-center gap-3">
+            <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
+            <div>
+              <p className="text-green-400 font-medium">Thanks for your interest!</p>
+              <p className="text-green-300/70 text-sm">Our team will reach out within 24 hours.</p>
+            </div>
+          </div>
+        )}
 
         {/* Chat Container */}
         <div className="bg-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
@@ -155,41 +163,79 @@ export const ChatWithAI: React.FC = () => {
                 <Send className="w-5 h-5" />
               </button>
             </form>
+
+            {/* Clear chat button */}
+            {messages.length > 1 && (
+              <button
+                onClick={handleClearChat}
+                className="mt-2 text-gray-500 hover:text-gray-300 text-xs flex items-center gap-1 transition-colors"
+              >
+                <RotateCcw className="w-3 h-3" />
+                Clear conversation
+              </button>
+            )}
           </div>
+
+          {/* Error Display */}
+          {error && (
+            <div className="px-6 py-3 bg-red-500/10 border-b border-red-500/30">
+              <p className="text-red-400 text-sm">
+                {error.message || 'Something went wrong. Please try again.'}
+              </p>
+              <button
+                onClick={() => reload()}
+                className="text-red-300 hover:text-red-100 text-xs mt-1 underline"
+              >
+                Retry
+              </button>
+            </div>
+          )}
 
           {/* Messages Area */}
           <div ref={messagesContainerRef} className="h-[500px] overflow-y-auto p-6 space-y-4">
-            {messages.slice().reverse().map((message) => (
-              <div
-                key={message.id}
-                className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {message.sender === 'ai' && (
-                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <Bot className="w-4 h-4 text-white" />
-                  </div>
-                )}
+            {messages.slice().reverse().map((message) => {
+              const text = getMessageText(message);
+              const isToolCallOnly = hasToolCall(message) && !text;
 
+              // Skip rendering if it's only a tool call with no text
+              if (isToolCallOnly) return null;
+              // Skip rendering if there's no text content
+              if (!text) return null;
+
+              return (
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                    message.sender === 'user'
-                      ? 'bg-purple-600 text-white rounded-br-md'
-                      : 'bg-white/5 text-gray-100 rounded-bl-md'
-                  }`}
+                  key={message.id}
+                  className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <p className="text-sm leading-relaxed">{message.text}</p>
-                  <p className="text-xs opacity-60 mt-2">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
-                </div>
+                  {message.role === 'assistant' && (
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <Bot className="w-4 h-4 text-white" />
+                    </div>
+                  )}
 
-                {message.sender === 'user' && (
-                  <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <User className="w-4 h-4 text-white" />
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      message.role === 'user'
+                        ? 'bg-purple-600 text-white rounded-br-md'
+                        : 'bg-white/5 text-gray-100 rounded-bl-md'
+                    }`}
+                  >
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{text}</p>
+                    {message.createdAt && (
+                      <p className="text-xs opacity-60 mt-2">
+                        {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {message.role === 'user' && (
+                    <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
 
             {isLoading && (
               <div className="flex gap-3 justify-start">
@@ -199,13 +245,11 @@ export const ChatWithAI: React.FC = () => {
                 <div className="bg-white/5 rounded-2xl rounded-bl-md px-4 py-3">
                   <div className="flex items-center gap-2 text-gray-400">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">AI is thinking...</span>
+                    <span className="text-sm">Olan is thinking...</span>
                   </div>
                 </div>
               </div>
             )}
-
-            <div ref={messagesEndRef} />
           </div>
         </div>
 
