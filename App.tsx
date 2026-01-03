@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
       <main className="relative z-10">
         <Hero />
-        <MarqueeLogos />
+        {/* <MarqueeLogos /> */}
         <Features />
         <Pricing />
         {/* <Testimonials /> */}
