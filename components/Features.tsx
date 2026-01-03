@@ -7,25 +7,29 @@ const features = [
     title: 'Full Product Development',
     description: 'From MVPs to full-scale SaaS and mobile applications. We own the entire delivery process — architecture, development, deployment, and beyond.',
     icon: <Code2 className="w-8 h-8 text-purple-500" />,
-    className: 'md:col-span-2'
+    className: 'md:col-span-2',
+    chatPrompt: 'Tell me about building a SaaS or mobile app from scratch'
   },
   {
     title: 'Internal Tools & Automation',
     description: 'Streamline your operations with custom tools that orchestrate daily tasks, reduce app clutter, and support smarter decision-making.',
     icon: <Layers className="w-8 h-8 text-blue-500" />,
-    className: 'md:col-span-1'
+    className: 'md:col-span-1',
+    chatPrompt: 'How can you help with internal tools and automation?'
   },
   {
     title: 'AI Engineering',
     description: 'We integrate AI where it matters — not as a gimmick, but as infrastructure. Real engineers building real solutions.',
     icon: <Bot className="w-8 h-8 text-emerald-500" />,
-    className: 'md:col-span-1'
+    className: 'md:col-span-1',
+    chatPrompt: 'How do you integrate AI into software projects?'
   },
   {
     title: 'Team Augmentation',
     description: 'Already have a team? We embed with your engineers to accelerate delivery, introduce AI tooling, and strengthen your development practices.',
     icon: <Users className="w-8 h-8 text-orange-500" />,
-    className: 'md:col-span-2'
+    className: 'md:col-span-2',
+    chatPrompt: 'We have an existing dev team — how can you help us?'
   }
 ];
 
@@ -56,9 +60,15 @@ export const Features: React.FC = () => {
               <h4 className="text-xl font-bold mb-3">{feature.title}</h4>
               <p className="text-gray-400 leading-relaxed">{feature.description}</p>
               
-              <div className="mt-8 flex items-center text-sm font-semibold text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('setChatPrompt', { detail: feature.chatPrompt }));
+                  document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="mt-8 flex items-center text-sm font-semibold text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300 hover:text-purple-300"
+              >
                 Learn more <span className="ml-2">→</span>
-              </div>
+              </button>
             </div>
           ))}
         </div>

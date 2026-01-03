@@ -33,6 +33,17 @@ export const ChatWithAI: React.FC = () => {
     scrollToTop();
   }, [messages]);
 
+  // Listen for chat prompt from Features "Learn more" links
+  useEffect(() => {
+    const handleSetPrompt = (e: CustomEvent<string>) => {
+      setInputText(e.detail);
+      inputRef.current?.focus();
+    };
+
+    window.addEventListener('setChatPrompt', handleSetPrompt as EventListener);
+    return () => window.removeEventListener('setChatPrompt', handleSetPrompt as EventListener);
+  }, []);
+
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
@@ -64,11 +75,22 @@ export const ChatWithAI: React.FC = () => {
   const generateAIResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
 
-    if (input.includes('pricing') || input.includes('cost') || input.includes('price') || input.includes('budget')) {
+    // Feature-specific prompts (from "Learn more" links)
+    if (input.includes('saas') && input.includes('scratch')) {
+      return "We handle the full journey — from initial architecture to production deployment. For SaaS, that means auth, billing, multi-tenancy, APIs, the works. For mobile, we build native-quality apps with shared logic where it makes sense. You get milestone-based delivery, so you're never in the dark. What's the product you're envisioning?";
+    } else if (input.includes('internal tools') || input.includes('automation')) {
+      return "Most teams are drowning in disconnected apps and manual processes. We build custom internal tools that tie everything together — task orchestration, dashboards, data pipelines, workflow automation. The goal is fewer apps, less clutter, better decisions. What's eating up your team's time right now?";
+    } else if (input.includes('integrate ai') || input.includes('ai into')) {
+      return "We integrate AI where it creates real value — not just chatbots for the sake of it. Think intelligent document processing, predictive analytics, automated workflows, or LLM-powered features in your product. We architect it properly so it's maintainable, not a black box. What problem are you trying to solve with AI?";
+    } else if (input.includes('existing') && input.includes('team')) {
+      return "We embed with your engineers, not replace them. That means working in your codebase, your processes, your tools. We can accelerate delivery on a specific initiative, introduce AI tooling to boost productivity, or help level up your practices. What's the biggest bottleneck your team is facing?";
+    }
+    // General prompts
+    else if (input.includes('pricing') || input.includes('cost') || input.includes('price') || input.includes('budget')) {
       return "Projects start at $5,000 and typically range up to $50K depending on scope. We work on a milestone basis — you pay for deliverables, not hours. No surprises, no retainers. Would you like to tell me about your project so I can give you a better sense of scope?";
-    } else if (input.includes('vibe') || input.includes('ai') || input.includes('cursor') || input.includes('copilot')) {
+    } else if (input.includes('vibe') || input.includes('cursor') || input.includes('copilot')) {
       return "Vibe coding tools are great for prototypes, but they create technical debt fast. We use AI as a tool, not a replacement for engineering judgment. Real engineers review, architect, and ensure what gets built is maintainable. That's how you get AI speed without the chaos.";
-    } else if (input.includes('project') || input.includes('build') || input.includes('develop') || input.includes('app') || input.includes('saas')) {
+    } else if (input.includes('project') || input.includes('build') || input.includes('develop') || input.includes('app') || input.includes('saas') || input.includes('mobile')) {
       return "We build everything from MVPs to full-scale SaaS and mobile apps. The process starts with a discovery call where we scope your needs, then we deliver in milestones so you see progress and can give feedback. What kind of project are you thinking about?";
     } else if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
       return "Hey! Good to meet you. I'm here to help figure out if OlanAI is the right fit for your project. What are you working on?";
@@ -78,6 +100,8 @@ export const ChatWithAI: React.FC = () => {
       return "We work with what you have. If your current tools work, we extend them. If they don't, we replace only what's needed. The goal is to protect your investments and maximize what's already in place before adding anything new.";
     } else if (input.includes('how') || input.includes('process') || input.includes('work')) {
       return "Simple: Discovery → Proposal → Build → Launch. We scope your project, give you a clear milestone breakdown with fixed costs, then deliver in iterations. You pay per milestone, own everything we build, and we stick around post-launch to make sure it works.";
+    } else if (input.includes('ai')) {
+      return "We integrate AI where it matters — not as a gimmick, but as infrastructure. Whether it's LLMs, automation, or predictive features, we build it with proper engineering so it actually works in production. What are you looking to do with AI?";
     } else {
       return "We help businesses go digital — building from scratch or extending what you already have. We protect your current investments and only add what's truly needed. Real engineers, AI-powered delivery, milestone-based pricing. What's on your mind?";
     }
