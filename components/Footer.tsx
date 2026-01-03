@@ -8,8 +8,8 @@ export const Footer: React.FC = () => {
   return (
     <footer className="py-20 px-4 border-t border-white/10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2">
+        <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
+          <div className="max-w-md">
             <div className="flex items-center gap-4 mb-6">
               <OlanCircles
                 width={40}
@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
                 className="text-[#7c3aed]"
               />
             </div>
-            <p className="text-gray-400 max-w-sm mb-6">
+            <p className="text-gray-400 mb-6">
               AI-powered software delivery with engineering discipline. We build our own internal tooling with this approach — so we know it works.
             </p>
             <div className="flex gap-4">
@@ -31,16 +31,6 @@ export const Footer: React.FC = () => {
               <li><a href="#features" className="hover:text-white transition-colors">What We Do</a></li>
               <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
               <li><a href="#chat" className="hover:text-white transition-colors">Start a Project</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold mb-6">Company</h4>
-            <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
             </ul>
           </div>
         </div>
