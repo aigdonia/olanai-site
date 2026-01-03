@@ -1,6 +1,7 @@
 # robots.txt for OlanAI
 User-agent: *
 Allow: /
+Disallow: /api/
 
 # Sitemap
 Sitemap: https://olanai.tech/sitemap.xml
