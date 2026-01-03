@@ -1,13 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { MarqueeLogos } from './components/MarqueeLogos';
 import { Features } from './components/Features';
 import { Testimonials } from './components/Testimonials';
-import { Pricing } from './components/Pricing';
 import { ChatWithAI } from './components/ChatWithAI';
-import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
@@ -27,8 +25,6 @@ const App: React.FC = () => {
         <Features />
         <Testimonials />
         <ChatWithAI />
-        {/* <Pricing /> */}
-        {/* <FAQ /> */}
       </main>
 
       <Footer />

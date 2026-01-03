@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, GitHub } from 'lucide-react';
+import { Menu, X, ArrowRight, Github } from 'lucide-react';
 import { OlanLogo } from './OlanLogo';
 
 export const Navbar: React.FC = () => {
@@ -67,11 +67,12 @@ export const Navbar: React.FC = () => {
               href="https://github.com/olanai"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full transition-all duration-300 ${
+              className={`flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
                 isScrolled ? 'text-gray-300 hover:text-white' : 'text-gray-400 hover:text-white'
               }`}
             >
-              <GitHub className="w-5 h-5" />
+              <Github className="w-5 h-5" />
+              GitHub
             </a>
 
             <button
@@ -118,7 +119,7 @@ export const Navbar: React.FC = () => {
             rel="noopener noreferrer"
             className="flex items-center gap-3 text-lg font-semibold text-gray-300 hover:text-white transition-colors"
           >
-            <GitHub className="w-5 h-5" />
+            <Github className="w-5 h-5" />
             GitHub
           </a>
           <button
