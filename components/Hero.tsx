@@ -9,31 +9,34 @@ export const Hero: React.FC = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-bounce">
           <Star className="w-3 h-3 fill-current" />
-          <span>Chat with our AI business advisor</span>
+          <span>AI-powered software delivery</span>
         </div>
 
         {/* Heading */}
         <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-          Engineering, <br className="hidden md:block" />
+          AI Engineering, <br className="hidden md:block" />
           with <span className="text-white font-bold">foresight.</span>
         </h1>
 
         {/* Description */}
         <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-10 leading-relaxed text-justify">
-          We build SaaS products and internal systems for organizations getting ready to scale. We don’t just ship software — we run it ourselves, so our standards are tested every day in real production environments
+          Vibe coding ships fast but creates chaos. We bring engineering discipline to AI-powered development. We use this approach to build our own internal tooling — so we know it works before we use it on yours.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-          <button className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
-            Explore Our Projects
+          <button
+            onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+          >
+            Start a Project
             <ArrowRight className="w-5 h-5" />
           </button>
-          <button 
-            onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+          <button
+            onClick={() => document.getElementById('how-we-work')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all"
           >
-            Build with us
+            How We Work
           </button>
         </div>
 

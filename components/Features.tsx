@@ -1,30 +1,30 @@
 
 import React from 'react';
-import { Bot, Code2, Cpu, Globe, Layers, ShieldCheck } from 'lucide-react';
+import { Bot, Code2, Users, Globe, Layers, ShieldCheck } from 'lucide-react';
 
 const features = [
   {
-    title: 'Autonomous AI Agents',
-    description: 'Self-improving agents that handle complex customer service and data entry tasks.',
-    icon: <Bot className="w-8 h-8 text-purple-500" />,
+    title: 'Full Product Development',
+    description: 'From MVPs to full-scale SaaS and mobile applications. We own the entire delivery process — architecture, development, deployment, and beyond.',
+    icon: <Code2 className="w-8 h-8 text-purple-500" />,
     className: 'md:col-span-2'
   },
   {
-    title: 'Custom API Design',
-    description: 'Robus and scalable backend architectures for enterprise needs.',
-    icon: <Cpu className="w-8 h-8 text-blue-500" />,
+    title: 'Internal Tools & Automation',
+    description: 'Streamline your operations with custom tools that orchestrate daily tasks, reduce app clutter, and support smarter decision-making.',
+    icon: <Layers className="w-8 h-8 text-blue-500" />,
     className: 'md:col-span-1'
   },
   {
-    title: 'Next-Gen Web Apps',
-    description: 'Blazing fast React & Next.js applications with pixel-perfect UI.',
-    icon: <Code2 className="w-8 h-8 text-emerald-500" />,
+    title: 'AI Engineering',
+    description: 'We integrate AI where it matters — not as a gimmick, but as infrastructure. Real engineers building real solutions.',
+    icon: <Bot className="w-8 h-8 text-emerald-500" />,
     className: 'md:col-span-1'
   },
   {
-    title: 'Cloud Infrastructure',
-    description: 'Distributed systems on AWS/GCP with 99.9% uptime guaranteed.',
-    icon: <Layers className="w-8 h-8 text-orange-500" />,
+    title: 'Team Augmentation',
+    description: 'Already have a team? We embed with your engineers to accelerate delivery, introduce AI tooling, and strengthen your development practices.',
+    icon: <Users className="w-8 h-8 text-orange-500" />,
     className: 'md:col-span-2'
   }
 ];
@@ -34,10 +34,10 @@ export const Features: React.FC = () => {
     <section id="features" className="py-24 px-4 bg-black">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">Our Expertise</h2>
-          <h3 className="text-4xl md:text-5xl font-bold mb-6">Engineered for performance</h3>
+          <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">What We Do</h2>
+          <h3 className="text-4xl md:text-5xl font-bold mb-6">Digital transformation, done right</h3>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            We don't just write code. We build intelligent systems that solve real business problems.
+            We help SMBs go digital without the chaos. Real engineers using AI to build software that actually works.
           </p>
         </div>
 

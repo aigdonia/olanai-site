@@ -12,7 +12,7 @@ export const ChatWithAI: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hi! I'm OlanAI. I can help you understand how our autonomous agents work, discuss your project requirements, or answer any questions about our services. How can I assist you today?",
+      text: "Hi! I'm Olan. I help businesses go digital without the chaos. Tell me about your project — whether it's a new product, internal tool, or a team that needs support — and I'll help you figure out if we're a good fit.",
       sender: 'ai',
       timestamp: new Date()
     }
@@ -64,18 +64,22 @@ export const ChatWithAI: React.FC = () => {
   const generateAIResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
 
-    if (input.includes('pricing') || input.includes('cost') || input.includes('price')) {
-      return "Our pricing is flexible and depends on your project scope and requirements. We offer both project-based pricing and retainer models. Would you like to schedule a consultation to discuss your specific needs?";
-    } else if (input.includes('autonomous') || input.includes('agent') || input.includes('ai')) {
-      return "Our autonomous AI agents are designed to handle complex software development tasks with minimal human intervention. They can write code, perform testing, manage deployments, and continuously improve based on feedback. Each agent is specialized for specific domains like frontend, backend, or DevOps.";
-    } else if (input.includes('project') || input.includes('build') || input.includes('develop')) {
-      return "We'd love to help build your project! Our process typically starts with understanding your requirements, then we deploy specialized AI agents to handle different aspects of development. The timeline depends on complexity, but most projects see initial results within 1-2 weeks. What kind of project are you considering?";
+    if (input.includes('pricing') || input.includes('cost') || input.includes('price') || input.includes('budget')) {
+      return "Projects start at $5,000 and typically range up to $50K depending on scope. We work on a milestone basis — you pay for deliverables, not hours. No surprises, no retainers. Would you like to tell me about your project so I can give you a better sense of scope?";
+    } else if (input.includes('vibe') || input.includes('ai') || input.includes('cursor') || input.includes('copilot')) {
+      return "Vibe coding tools are great for prototypes, but they create technical debt fast. We use AI as a tool, not a replacement for engineering judgment. Real engineers review, architect, and ensure what gets built is maintainable. That's how you get AI speed without the chaos.";
+    } else if (input.includes('project') || input.includes('build') || input.includes('develop') || input.includes('app') || input.includes('saas')) {
+      return "We build everything from MVPs to full-scale SaaS and mobile apps. The process starts with a discovery call where we scope your needs, then we deliver in milestones so you see progress and can give feedback. What kind of project are you thinking about?";
     } else if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
-      return "Hello! Great to meet you. I'm here to help you understand how OlanAI can accelerate your software development with autonomous agents. What questions can I answer for you?";
-    } else if (input.includes('team') || input.includes('experience') || input.includes('background')) {
-      return "Our team combines deep expertise in AI/ML with proven software engineering experience. We've built systems that scale from startups to enterprise. Our autonomous agents are trained on best practices and can adapt to your specific tech stack and requirements.";
+      return "Hey! Good to meet you. I'm here to help figure out if OlanAI is the right fit for your project. What are you working on?";
+    } else if (input.includes('team') || input.includes('experience') || input.includes('who')) {
+      return "We're engineers who've built large-scale mobile apps and SaaS products. We use the same AI-powered engineering approach to build our own internal tooling — so we know it works before we use it on client projects. No vibe-coded chaos.";
+    } else if (input.includes('tool') || input.includes('internal') || input.includes('automat') || input.includes('existing') || input.includes('integrat')) {
+      return "We work with what you have. If your current tools work, we extend them. If they don't, we replace only what's needed. The goal is to protect your investments and maximize what's already in place before adding anything new.";
+    } else if (input.includes('how') || input.includes('process') || input.includes('work')) {
+      return "Simple: Discovery → Proposal → Build → Launch. We scope your project, give you a clear milestone breakdown with fixed costs, then deliver in iterations. You pay per milestone, own everything we build, and we stick around post-launch to make sure it works.";
     } else {
-      return "That's a great question! Our autonomous AI agents can help with a wide range of software development challenges. Could you tell me more about your specific needs or project requirements? I'd be happy to explain how our approach could benefit your situation.";
+      return "We help businesses go digital — building from scratch or extending what you already have. We protect your current investments and only add what's truly needed. Real engineers, AI-powered delivery, milestone-based pricing. What's on your mind?";
     }
   };
 
@@ -93,10 +97,10 @@ export const ChatWithAI: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">
-            Chat with OlanAI
+            Let's Talk
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Chat with Olan about your project, Olan will help answer your questions, and check if we are a fir for your next softeware development.
+            Tell Olan about your project. Get a sense of scope, approach, and whether we're the right fit — no commitment required.
           </p>
         </div>
 
@@ -112,7 +116,7 @@ export const ChatWithAI: React.FC = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Ask about our Engineering Approach, Technolog Stack, Pricing, or anything else..."
+                  placeholder="Describe your project, ask about pricing, our process, or anything else..."
                   className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
                   disabled={isLoading}
                   autoComplete="off"
@@ -183,14 +187,14 @@ export const ChatWithAI: React.FC = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-12">
-          <p className="text-gray-400 mb-6">Ready to start your project with autonomous AI agents?</p>
-          <button 
-            onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors duration-200 flex items-center gap-2 mx-auto"
+          <p className="text-gray-400 mb-6">Prefer email? Reach out directly.</p>
+          <a
+            href="mailto:hello@olanai.tech"
+            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors duration-200 flex items-center gap-2 mx-auto inline-flex"
           >
-            Build with us
+            hello@olanai.tech
             <Send className="w-4 h-4" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

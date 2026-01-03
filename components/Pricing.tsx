@@ -1,88 +1,101 @@
 
-import React, { useState } from 'react';
-import { Check } from 'lucide-react';
+import React from 'react';
+import { Check, ArrowRight } from 'lucide-react';
 
-const plans = [
+const processSteps = [
   {
-    name: 'Starter',
-    price: '2,999',
-    description: 'Perfect for startups needing an MVP.',
-    features: ['Single AI Agent', 'Custom UI/UX', 'Landing Page', 'Basic Integration']
+    step: '01',
+    title: 'Discovery',
+    description: 'We learn your business, map your needs, and define the scope together.'
   },
   {
-    name: 'Professional',
-    price: '5,999',
-    description: 'Ideal for growing businesses scaling up.',
-    features: ['3 AI Agents', 'Full Web App', 'API Management', 'Priority Support', 'Cloud Deployment'],
-    popular: true
+    step: '02',
+    title: 'Proposal',
+    description: 'You get a clear milestone breakdown with fixed costs — no surprises.'
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    description: 'Dedicated resources for large organizations.',
-    features: ['Unlimited Agents', 'Infrastructure Audit', 'On-premise Options', '24/7 Support', 'Security Compliance']
+    step: '03',
+    title: 'Build',
+    description: 'We deliver in iterations. You see progress, give feedback, and pay per milestone.'
+  },
+  {
+    step: '04',
+    title: 'Launch & Support',
+    description: 'We ship production-ready software and stick around to make sure it works.'
   }
 ];
 
-export const Pricing: React.FC = () => {
-  const [isAnnual, setIsAnnual] = useState(false);
+const includedItems = [
+  'Milestone-based delivery',
+  'Fixed pricing per phase',
+  'Full ownership of your code',
+  'Direct communication with engineers',
+  'No long-term contracts',
+  'Post-launch support included'
+];
 
+export const Pricing: React.FC = () => {
   return (
-    <section id="pricing" className="py-24 px-4">
+    <section id="how-we-work" className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">Transparent Pricing</h2>
-          
-          <div className="flex items-center justify-center gap-4">
-            <span className={`text-sm ${!isAnnual ? 'text-white' : 'text-gray-500'}`}>Monthly</span>
-            <button 
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="w-14 h-7 rounded-full bg-white/10 p-1 relative flex items-center transition-colors hover:bg-white/20"
-            >
-              <div className={`w-5 h-5 bg-purple-500 rounded-full transition-transform ${isAnnual ? 'translate-x-7' : 'translate-x-0'}`} />
-            </button>
-            <span className={`text-sm ${isAnnual ? 'text-white' : 'text-gray-500'}`}>Annually (Save 20%)</span>
-          </div>
+          <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">How We Work</h2>
+          <h3 className="text-4xl md:text-5xl font-bold mb-6">Predictable costs. Clear milestones.</h3>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            No retainers. No hourly billing surprises. You pay for deliverables, and you own everything we build.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {plans.map((plan, i) => (
-            <div 
-              key={i}
-              className={`relative p-8 rounded-3xl border transition-all duration-300 ${
-                plan.popular 
-                ? 'bg-white/5 border-purple-500/50 scale-105 shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)]' 
-                : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                  Most Popular
-                </div>
-              )}
-              <div className="text-xl font-bold mb-2">{plan.name}</div>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-4xl font-extrabold">{plan.price !== 'Custom' ? `$${plan.price}` : 'Custom'}</span>
-                {plan.price !== 'Custom' && <span className="text-gray-500">/mo</span>}
-              </div>
-              <p className="text-gray-400 text-sm mb-8">{plan.description}</p>
-              
-              <button className={`w-full py-4 rounded-xl font-bold mb-8 transition-colors ${
-                plan.popular ? 'bg-purple-500 hover:bg-purple-600' : 'bg-white/10 hover:bg-white/20'
-              }`}>
-                Choose {plan.name}
-              </button>
+        {/* Philosophy Callout */}
+        <div className="max-w-3xl mx-auto mb-16 p-6 rounded-2xl bg-white/[0.02] border border-white/10 text-center">
+          <p className="text-lg text-gray-300 leading-relaxed">
+            We build from scratch when it makes sense — and extend what you already have when it doesn't.
+            Your current tools and investments matter. We maximize them before adding anything new.
+          </p>
+        </div>
 
-              <div className="space-y-4">
-                {plan.features.map((f, j) => (
-                  <div key={j} className="flex items-center gap-3 text-sm text-gray-300">
-                    <Check className="w-4 h-4 text-purple-500" />
-                    {f}
-                  </div>
-                ))}
-              </div>
+        {/* Process Steps */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          {processSteps.map((item, i) => (
+            <div
+              key={i}
+              className="relative p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] transition-all"
+            >
+              <div className="text-4xl font-bold text-purple-500/30 mb-4">{item.step}</div>
+              <h4 className="text-xl font-bold mb-2">{item.title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
             </div>
           ))}
+        </div>
+
+        {/* Engagement Card */}
+        <div className="max-w-2xl mx-auto">
+          <div className="relative p-8 md:p-12 rounded-3xl bg-white/[0.03] border border-purple-500/30 shadow-[0_0_40px_-10px_rgba(168,85,247,0.2)]">
+            <div className="text-center mb-8">
+              <h4 className="text-2xl md:text-3xl font-bold mb-4">Every project starts with a conversation</h4>
+              <p className="text-gray-400 leading-relaxed">
+                We scope together, agree on milestones, and you only pay for what gets delivered.
+                No open-ended retainers. No runaway budgets. Just clear phases with clear outcomes.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {includedItems.map((item, i) => (
+                <div key={i} className="flex items-center gap-3 text-sm text-gray-300">
+                  <Check className="w-4 h-4 text-purple-500 flex-shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+              className="w-full py-4 rounded-xl font-bold bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-2"
+            >
+              Let's Talk About Your Project
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

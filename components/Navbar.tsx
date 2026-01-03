@@ -16,10 +16,9 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'How we Work', href: '#features' },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'Projects', href: '#pricing' },
-    { name: 'Contact Us', href: '#faq' },
+    { name: 'What We Do', href: '#features' },
+    { name: 'How We Work', href: '#how-we-work' },
+    { name: 'Start a Project', href: '#chat' },
   ];
 
   return (
@@ -81,7 +80,7 @@ export const Navbar: React.FC = () => {
                 isScrolled ? 'scale-95' : 'scale-100'
               }`}
             >
-              Build with us
+              Let's Talk
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
@@ -129,7 +128,7 @@ export const Navbar: React.FC = () => {
             }}
             className="w-full bg-white text-black px-5 py-3 rounded-xl text-center font-bold shadow-xl"
           >
-            Build with us
+            Let's Talk
           </button>
         </div>
       )}

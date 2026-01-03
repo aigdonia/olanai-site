@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
               />
             </div>
             <p className="text-gray-400 max-w-sm mb-6">
-              Empowering the next generation of businesses with autonomous agents and high-performance software engineering.
+              AI-powered software delivery with engineering discipline. We build our own internal tooling with this approach — so we know it works.
             </p>
             <div className="flex gap-4">
               <a href="https://github.com/olanai" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"><Github className="w-5 h-5" /></a>
@@ -26,12 +26,11 @@ export const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-bold mb-6">Product</h4>
+            <h4 className="font-bold mb-6">Services</h4>
             <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Changelog</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">What We Do</a></li>
+              <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
+              <li><a href="#chat" className="hover:text-white transition-colors">Start a Project</a></li>
             </ul>
           </div>
 
@@ -47,7 +46,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© 2024 OlanAI. All rights reserved.</p>
+          <p>© 2025 OlanAI. All rights reserved.</p>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             <span>Systems fully operational</span>
