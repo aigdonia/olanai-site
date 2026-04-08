@@ -1,13 +1,16 @@
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { MarqueeLogos } from './components/MarqueeLogos';
 import { Features } from './components/Features';
 import { Pricing } from './components/Pricing';
 // import { Testimonials } from './components/Testimonials';
-import { ChatWithAI } from './components/ChatWithAI';
 import { Footer } from './components/Footer';
+
+const ChatWithAI = lazy(() => import('./components/ChatWithAI').then(m => ({ default: m.ChatWithAI })));
+
+const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 const App: React.FC = () => {
   return (
@@ -26,7 +29,11 @@ const App: React.FC = () => {
         <Features />
         <Pricing />
         {/* <Testimonials /> */}
-        <ChatWithAI />
+        {isLocalDev && (
+          <Suspense fallback={null}>
+            <ChatWithAI />
+          </Suspense>
+        )}
       </main>
 
       <Footer />
