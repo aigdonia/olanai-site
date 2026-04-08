@@ -7,7 +7,7 @@ export const Hero: React.FC = () => {
     <section className="pt-32 pb-20 px-4">
       <div className="max-w-7xl mx-auto text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-bounce">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 ">
           <Star className="w-3 h-3 fill-current" />
           <span>AI-powered software delivery</span>
         </div>
