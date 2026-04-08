@@ -1,17 +1,11 @@
 
 import React from 'react';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   return (
     <section className="pt-32 pb-20 px-4">
       <div className="max-w-7xl mx-auto text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 ">
-          <Star className="w-3 h-3 fill-current" />
-          <span>AI-powered software delivery</span>
-        </div>
-
         {/* Heading */}
         <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
           AI Engineering, <br className="hidden md:block" />
