@@ -1,0 +1,11 @@
+# Cloudflare Pages config. The frontend builds to dist/ (vite) and the chat API is
+# served by the Pages Function at functions/api/chat.ts -> /api/chat (same origin).
+#
+# `name` should match your Cloudflare Pages project name — update if different.
+name = "olanai"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "dist"
+
+# The chat libraries use only the global fetch (no Node built-ins), so nodejs_compat
+# is NOT required. If a future dependency needs Node APIs, add:
+# compatibility_flags = ["nodejs_compat"]

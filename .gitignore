@@ -28,3 +28,7 @@ dist-ssr
 .output/
 .tanstack/
 .vercel/
+
+# Cloudflare
+.dev.vars
+.wrangler/
