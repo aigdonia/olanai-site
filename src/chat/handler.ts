@@ -13,17 +13,60 @@ export interface ChatEnv {
   SHEET_WEBHOOK_TOKEN?: string;
   DISCORD_WEBHOOK_URL?: string;
   SLACK_WEBHOOK_URL?: string;
+  TURNSTILE_SECRET?: string;
 }
 
-// Hard cap on user turns per conversation so one session can't run up the bill.
+// Abuse caps. Per-turn cap stops one session running up the bill; the size caps
+// stop oversized-prompt cost-inflation attacks.
 export const MAX_USER_MESSAGES = 16;
+export const MAX_MESSAGES = 50;          // total entries in the conversation
+export const MAX_MESSAGE_CHARS = 4000;   // per single message
+export const MAX_TOTAL_CHARS = 16000;    // combined across the conversation
 
 /** Thrown when the conversation exceeds the message cap (adapters map this to 429). */
 export class MessageCapError extends Error {}
 /** Thrown when the model API key is missing/placeholder (adapters map this to 500). */
 export class ConfigError extends Error {}
-/** Thrown on a malformed request body (adapters map this to 400). */
+/** Thrown on a malformed/oversized request body (adapters map this to 400). */
 export class BadRequestError extends Error {}
+/** Thrown when bot verification (Turnstile) fails (adapters map this to 403). */
+export class ForbiddenError extends Error {}
+
+/**
+ * Verify a Cloudflare Turnstile token when TURNSTILE_SECRET is configured.
+ * No-op when unset (e.g. local dev) so development stays frictionless.
+ * Throws ForbiddenError on a missing/invalid token.
+ */
+export async function verifyTurnstileIfConfigured(
+  body: any,
+  env: ChatEnv,
+  remoteIp?: string | null,
+): Promise<void> {
+  const secret = env.TURNSTILE_SECRET;
+  if (!secret) return; // not configured — skip (dev/local)
+
+  const token = typeof body?.turnstileToken === 'string' ? body.turnstileToken : '';
+  if (!token) throw new ForbiddenError('Verification required.');
+
+  const form = new URLSearchParams();
+  form.set('secret', secret);
+  form.set('response', token);
+  if (remoteIp) form.set('remoteip', remoteIp);
+
+  try {
+    const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: form,
+    });
+    const result = (await resp.json()) as { success?: boolean };
+    if (!result.success) throw new ForbiddenError('Verification failed.');
+  } catch (err) {
+    if (err instanceof ForbiddenError) throw err;
+    // Network/parse failure verifying — fail closed.
+    throw new ForbiddenError('Verification unavailable.');
+  }
+}
 
 interface Lead {
   id: string;
@@ -175,6 +218,18 @@ export function runChatStream(body: any, env: ChatEnv): ReadableStream<Uint8Arra
   if (!messages || !Array.isArray(messages)) {
     throw new BadRequestError('Messages array is required');
   }
+
+  // Size caps — reject oversized payloads before spending any model tokens.
+  if (messages.length > MAX_MESSAGES) {
+    throw new BadRequestError('Too many messages.');
+  }
+  let totalChars = 0;
+  for (const m of messages) {
+    const content = typeof m?.content === 'string' ? m.content : '';
+    if (content.length > MAX_MESSAGE_CHARS) throw new BadRequestError('Message too long.');
+    totalChars += content.length;
+  }
+  if (totalChars > MAX_TOTAL_CHARS) throw new BadRequestError('Conversation too long.');
 
   const userMessageCount = messages.filter((m: any) => m?.role === 'user').length;
   if (userMessageCount > MAX_USER_MESSAGES) {

@@ -11,6 +11,10 @@ const CHAT_API_URL =
   (import.meta.env.VITE_CHAT_API_URL as string | undefined) ??
   (import.meta.env.DEV ? 'http://localhost:3001/api/chat' : '/api/chat');
 
+// Cloudflare Turnstile sitekey (public). When unset (local dev), the widget and the
+// server-side check are both skipped, so dev stays frictionless.
+const TURNSTILE_SITEKEY = import.meta.env.VITE_TURNSTILE_SITEKEY as string | undefined;
+
 // Soft-close before the server's hard cap (16) so the UX degrades gracefully.
 const MAX_USER_MESSAGES = 12;
 
@@ -91,6 +95,27 @@ export const ChatWithAI: React.FC = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // --- Cloudflare Turnstile (bot protection) ---
+  const turnstileElRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
+  const tokenResolvers = useRef<Array<(t: string) => void>>([]);
+
+  // Resolve a fresh Turnstile token for the next request. Returns '' when Turnstile
+  // isn't configured/ready (dev), in which case the server skips verification.
+  const getTurnstileToken = useCallback((): Promise<string> => {
+    const ts = (window as any).turnstile;
+    if (!TURNSTILE_SITEKEY || !ts || !turnstileWidgetId.current) return Promise.resolve('');
+    return new Promise<string>((resolve) => {
+      tokenResolvers.current.push(resolve);
+      try {
+        ts.reset(turnstileWidgetId.current);
+        ts.execute(turnstileWidgetId.current);
+      } catch {
+        resolve('');
+      }
+    });
+  }, []);
+
   // Initial greeting message (rendered UI — costs no LLM tokens)
   const initialMessage: UIMessage = {
     id: 'greeting',
@@ -111,9 +136,12 @@ export const ChatWithAI: React.FC = () => {
     reload,
     setMessages,
   } = useChat({
-    // The options function resolves per request, so ctxRef.current always
-    // reflects the visitor's latest chip selections and funnel stage.
-    connection: fetchServerSentEvents(CHAT_API_URL, () => ({ body: { ...ctxRef.current } })),
+    // The async options function resolves per request, so ctxRef.current always
+    // reflects the visitor's latest chip selections, and a fresh Turnstile token
+    // is attached to every request.
+    connection: fetchServerSentEvents(CHAT_API_URL, async () => ({
+      body: { ...ctxRef.current, turnstileToken: await getTurnstileToken() },
+    })),
     initialMessages: [initialMessage],
     tools: [captureLeadClient],
     onFinish: (message) => {
@@ -143,6 +171,35 @@ export const ChatWithAI: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading, scrollToBottom]);
+
+  // Render the invisible Turnstile widget once (only when a sitekey is configured).
+  useEffect(() => {
+    if (!TURNSTILE_SITEKEY) return;
+    const flush = (token: string) => {
+      const resolvers = tokenResolvers.current;
+      tokenResolvers.current = [];
+      resolvers.forEach((r) => r(token));
+    };
+    const doRender = () => {
+      const ts = (window as any).turnstile;
+      if (!ts || turnstileWidgetId.current || !turnstileElRef.current) return;
+      turnstileWidgetId.current = ts.render(turnstileElRef.current, {
+        sitekey: TURNSTILE_SITEKEY,
+        execution: 'execute',
+        appearance: 'interaction-only',
+        callback: (token: string) => flush(token),
+        'error-callback': () => flush(''),
+      });
+    };
+    const ts = (window as any).turnstile;
+    if (ts?.ready) { ts.ready(doRender); return; }
+    // Script may still be loading — poll briefly until it's available.
+    const iv = setInterval(() => {
+      const t = (window as any).turnstile;
+      if (t?.ready) { clearInterval(iv); t.ready(doRender); }
+    }, 300);
+    return () => clearInterval(iv);
+  }, []);
 
   // Listen for chat prompt from Features "Learn more" links
   useEffect(() => {
@@ -364,6 +421,9 @@ export const ChatWithAI: React.FC = () => {
               <div className="pl-11">{renderChips()}</div>
             )}
           </div>
+
+          {/* Cloudflare Turnstile (interaction-only — invisible unless a challenge is needed) */}
+          <div ref={turnstileElRef} className="flex justify-center empty:hidden" />
 
           {/* Error Display */}
           {error && (

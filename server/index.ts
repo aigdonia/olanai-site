@@ -6,9 +6,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import {
   runChatStream,
+  verifyTurnstileIfConfigured,
   MessageCapError,
   ConfigError,
   BadRequestError,
+  ForbiddenError,
   type ChatEnv,
 } from '../src/chat/handler';
 
@@ -44,6 +46,7 @@ app.post('/api/chat', async (req, res) => {
   }
 
   try {
+    await verifyTurnstileIfConfigured(req.body, process.env as ChatEnv, ip);
     const stream = runChatStream(req.body, process.env as ChatEnv);
 
     res.setHeader('Content-Type', 'text/event-stream');
@@ -60,6 +63,7 @@ app.post('/api/chat', async (req, res) => {
     }
     res.end();
   } catch (err) {
+    if (err instanceof ForbiddenError) return res.status(403).json({ error: err.message });
     if (err instanceof MessageCapError) return res.status(429).json({ error: err.message });
     if (err instanceof BadRequestError) return res.status(400).json({ error: err.message });
     if (err instanceof ConfigError) return res.status(500).json({ error: err.message });
