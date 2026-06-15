@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
             <div>
               <h4 className="font-bold mb-6">Find Us On</h4>
               <div className="flex gap-4">
-                <a href="https://instagram.com/olanai" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"><Instagram className="w-5 h-5" /></a>
+                <a href="https://instagram.com/olanai.tech" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"><Instagram className="w-5 h-5" /></a>
                 <a href="https://github.com/olanai" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"><Github className="w-5 h-5" /></a>
               </div>
             </div>
