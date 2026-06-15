@@ -2,6 +2,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { HeroBackground } from './HeroBackground';
+import { startProject } from '../lib/cta';
 
 export const Hero: React.FC = () => {
   return (
@@ -14,15 +15,20 @@ export const Hero: React.FC = () => {
           with <span className="text-white font-bold">foresight.</span>
         </h1>
 
+        {/* Value prop — the 3-second "what / who" */}
+        <p className="max-w-2xl mx-auto text-gray-300 text-xl md:text-2xl font-medium mb-6">
+          We design and build SaaS platforms, internal tools, and AI systems for growing businesses.
+        </p>
+
         {/* Description */}
-        <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-10 leading-relaxed text-justify">
+        <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-10 leading-relaxed">
           Vibe coding ships fast but creates chaos. We bring engineering discipline to AI-powered development. We use this approach to build our own internal tooling — so we know it works before we use it on yours.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
           <button
-            onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => startProject()}
             className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
           >
             Start a Project
