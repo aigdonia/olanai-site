@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Send, User } from 'lucide-react';
 import { HeroBackground } from './HeroBackground';
+import { OlanCircles } from './OlanCircles';
 import { startProject } from '../lib/cta';
 
 export const Hero: React.FC = () => {
@@ -51,13 +52,66 @@ export const Hero: React.FC = () => {
               <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
               <div className="w-2 h-2 rounded-full bg-green-500/50" />
             </div>
-            {/* Visual content placeholder */}
-            <div className="grid grid-cols-3 gap-6 w-full p-12 mt-10">
-              <div className="h-32 bg-white/5 rounded-lg border border-white/5 animate-pulse" />
-              <div className="h-32 bg-white/5 rounded-lg border border-white/5 animate-pulse [animation-delay:200ms]" />
-              <div className="h-32 bg-white/5 rounded-lg border border-white/5 animate-pulse [animation-delay:400ms]" />
-              <div className="col-span-2 h-20 bg-white/5 rounded-lg border border-white/5 animate-pulse [animation-delay:600ms]" />
-              <div className="h-20 bg-white/5 rounded-lg border border-white/5 animate-pulse [animation-delay:800ms]" />
+            {/* Static preview of the live chat (the product the CTAs open) */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 top-10 flex flex-col gap-3 p-4 sm:p-6 text-left select-none pointer-events-none transition-all duration-500 group-hover:scale-[0.97] group-hover:opacity-30 group-hover:blur-sm"
+            >
+              {/* Assistant */}
+              <div className="flex gap-3 justify-start">
+                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <OlanCircles width={18} height={18} className="text-white" />
+                </div>
+                <div className="max-w-[80%] bg-white/5 text-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-sm leading-relaxed">
+                  Hi, I'm Goss. What are you looking to build?
+                </div>
+              </div>
+
+              {/* User */}
+              <div className="flex gap-3 justify-end">
+                <div className="max-w-[80%] bg-purple-600 text-white rounded-2xl rounded-br-md px-4 py-3 text-sm leading-relaxed">
+                  A SaaS MVP for my startup — web and mobile.
+                </div>
+                <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-white" />
+                </div>
+              </div>
+
+              {/* Assistant + chips */}
+              <div className="flex gap-3 justify-start">
+                <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <OlanCircles width={18} height={18} className="text-white" />
+                </div>
+                <div className="max-w-[80%] bg-white/5 text-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-sm leading-relaxed">
+                  Love it — roughly what budget are we working with?
+                </div>
+              </div>
+              <div className="pl-11 flex flex-wrap gap-2">
+                {['$10–25k', '$25–50k', '$50k+'].map((c) => (
+                  <span key={c} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs">
+                    {c}
+                  </span>
+                ))}
+              </div>
+
+              {/* Input bar */}
+              <div className="mt-auto flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5">
+                <span className="text-gray-500 text-sm">Describe your project…</span>
+                <span className="ml-auto w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                  <Send className="w-4 h-4 text-white" />
+                </span>
+              </div>
+            </div>
+
+            {/* Hover CTA overlay */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-500 pointer-events-none group-hover:pointer-events-auto focus-within:pointer-events-auto">
+              <button
+                onClick={() => startProject()}
+                className="px-8 py-5 bg-white text-black text-lg font-bold rounded-full hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-2xl"
+              >
+                Tell us what you're building
+                <ArrowRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
