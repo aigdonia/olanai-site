@@ -11,8 +11,6 @@ import { Footer } from './components/Footer';
 
 const ChatWithAI = lazy(() => import('./components/ChatWithAI').then(m => ({ default: m.ChatWithAI })));
 
-const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
 const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-purple-500/30">
@@ -31,11 +29,9 @@ const App: React.FC = () => {
         <HowWeBuild />
         <Pricing />
         {/* <Testimonials /> */}
-        {isLocalDev && (
-          <Suspense fallback={null}>
-            <ChatWithAI />
-          </Suspense>
-        )}
+        <Suspense fallback={null}>
+          <ChatWithAI />
+        </Suspense>
       </main>
 
       <Footer />

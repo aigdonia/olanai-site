@@ -4,11 +4,12 @@ import { useChat, fetchServerSentEvents, type UIMessage } from '@tanstack/ai-rea
 import { captureLeadTool, type CaptureLeadInput } from '../src/tools/definitions';
 import { OlanCircles } from './OlanCircles';
 
-// Chat API endpoint — configurable so production (Cloudflare) can point elsewhere
-// without code changes. Falls back to the local dev API server.
+// Chat API endpoint. In production the Cloudflare Pages Function serves it at the
+// same origin (/api/chat); in dev it's the local Express server on :3001. An explicit
+// VITE_CHAT_API_URL overrides both if ever needed.
 const CHAT_API_URL =
-  (import.meta.env.VITE_CHAT_API_URL as string | undefined) ||
-  'http://localhost:3001/api/chat';
+  (import.meta.env.VITE_CHAT_API_URL as string | undefined) ??
+  (import.meta.env.DEV ? 'http://localhost:3001/api/chat' : '/api/chat');
 
 // Soft-close before the server's hard cap (16) so the UX degrades gracefully.
 const MAX_USER_MESSAGES = 12;
