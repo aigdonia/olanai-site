@@ -1,11 +1,13 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { HeroBackground } from './HeroBackground';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="pt-32 pb-20 px-4">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+      <HeroBackground />
+      <div className="relative z-10 max-w-7xl mx-auto text-center">
         {/* Heading */}
         <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
           AI Engineering, <br className="hidden md:block" />
