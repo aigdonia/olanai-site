@@ -83,9 +83,11 @@ const AnimatedTimeline: React.FC = () => {
     <div ref={timelineRef} className="mb-16">
       {/* Timeline Container */}
       <div className="relative">
-        {/* Horizontal Dotted Line (progress only) */}
+        {/* Faint full-width track (shows the whole journey) */}
+        <div className="hidden md:block absolute top-8 left-0 right-0 h-px bg-white/10" />
+        {/* Gradient progress line */}
         <div
-          className="hidden md:block absolute top-8 left-0 h-px border-t-2 border-dashed border-purple-400/50 transition-all duration-1000 ease-out"
+          className="hidden md:block absolute top-8 left-0 h-0.5 -mt-px rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.6)] transition-all duration-1000 ease-out"
           style={{ width: isVisible ? `${((activeStep + 1) / processSteps.length) * 100}%` : '0%' }}
         />
 
@@ -100,19 +102,25 @@ const AnimatedTimeline: React.FC = () => {
               style={{ transitionDelay: `${i * 150}ms` }}
               onClick={() => setActiveStep(i)}
             >
-              {/* Node */}
+              {/* Node — gradient ring always, gradient fill once reached */}
               <div
-                className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
+                className={`relative z-10 w-16 h-16 rounded-full p-px transition-all duration-500 ${
                   i <= activeStep
-                    ? 'bg-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.5)]'
-                    : 'bg-white/5 border border-white/20'
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.45)]'
+                    : 'bg-gradient-to-br from-white/25 to-white/5'
                 }`}
               >
-                <span className={`text-lg font-bold transition-colors duration-300 ${
-                  i <= activeStep ? 'text-white' : 'text-gray-500'
-                }`}>
-                  {item.step}
-                </span>
+                <div
+                  className={`w-full h-full rounded-full flex items-center justify-center transition-colors duration-500 ${
+                    i <= activeStep ? 'bg-gradient-to-br from-indigo-600 to-purple-500' : 'bg-[#0a0a0c]'
+                  }`}
+                >
+                  <span className={`text-lg font-bold transition-colors duration-300 ${
+                    i <= activeStep ? 'text-white' : 'text-gray-500'
+                  }`}>
+                    {item.step}
+                  </span>
+                </div>
 
                 {/* Pulse animation for active step */}
                 {i === activeStep && (
@@ -143,7 +151,7 @@ const AnimatedTimeline: React.FC = () => {
       {/* Mobile: Active Step Detail Card */}
       <div className="md:hidden mt-8 p-6 rounded-2xl bg-white/[0.03] border border-purple-500/30">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)]">
             <span className="text-sm font-bold text-white">{processSteps[activeStep].step}</span>
           </div>
           <h4 className="text-xl font-bold">{processSteps[activeStep].title}</h4>
