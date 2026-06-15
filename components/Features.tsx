@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { startProject } from '../lib/cta';
 
 // Single sprite sheet (2x2 grid) lives at /services.jpeg.
 // Each card shows one quadrant via background-position with a 200% background-size.
@@ -75,10 +76,7 @@ export const Features: React.FC = () => {
                 <p className="text-gray-400 leading-relaxed">{feature.description}</p>
 
                 <button
-                  onClick={() => {
-                    window.dispatchEvent(new CustomEvent('setChatPrompt', { detail: feature.chatPrompt }));
-                    document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => startProject(feature.chatPrompt)}
                   className="mt-6 flex items-center text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors"
                 >
                   Learn more

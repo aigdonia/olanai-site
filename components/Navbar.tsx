@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Github } from 'lucide-react';
 import { OlanLogo } from './OlanLogo';
+import { startProject, CONTACT_EMAIL } from '../lib/cta';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,10 +16,10 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks: { name: string; href: string; isCta?: boolean }[] = [
     { name: 'What We Do', href: '#features' },
     { name: 'How We Work', href: '#how-we-work' },
-    { name: 'Start a Project', href: '#chat' },
+    { name: 'Start a Project', href: '#chat', isCta: true },
   ];
 
   return (
@@ -51,7 +52,8 @@ export const Navbar: React.FC = () => {
               {navLinks.map((link) => (
                 <a
                   key={link.name}
-                  href={link.href}
+                  href={link.isCta ? `mailto:${CONTACT_EMAIL}` : link.href}
+                  onClick={link.isCta ? (e) => { e.preventDefault(); startProject(); } : undefined}
                   className={`text-sm font-medium transition-all duration-300 relative group ${
                     isScrolled ? 'text-gray-300 hover:text-white' : 'text-gray-400 hover:text-white'
                   }`}
@@ -75,7 +77,7 @@ export const Navbar: React.FC = () => {
             </a>
 
             <button
-              onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => startProject()}
               className={`bg-white text-black px-5 py-2 rounded-full text-xs font-bold transition-all duration-500 hover:bg-gray-200 flex items-center gap-2 group ${
                 isScrolled ? 'scale-95' : 'scale-100'
               }`}
@@ -105,8 +107,11 @@ export const Navbar: React.FC = () => {
           {navLinks.map((link) => (
             <a
               key={link.name}
-              href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
+              href={link.isCta ? `mailto:${CONTACT_EMAIL}` : link.href}
+              onClick={(e) => {
+                setIsMobileMenuOpen(false);
+                if (link.isCta) { e.preventDefault(); startProject(); }
+              }}
               className="text-lg font-semibold text-gray-300 hover:text-white transition-colors"
             >
               {link.name}
@@ -124,7 +129,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => {
               setIsMobileMenuOpen(false);
-              document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' });
+              startProject();
             }}
             className="w-full bg-white text-black px-5 py-3 rounded-xl text-center font-bold shadow-xl"
           >

@@ -3,6 +3,7 @@ import React from 'react';
 import { Github, Instagram } from 'lucide-react';
 import { OlanCircles } from './OlanCircles';
 import { OlanLogo } from './OlanLogo';
+import { startProject, CONTACT_EMAIL } from '../lib/cta';
 
 export const Footer: React.FC = () => {
   return (
@@ -28,7 +29,7 @@ export const Footer: React.FC = () => {
               <ul className="space-y-4 text-gray-400 text-sm">
                 <li><a href="#features" className="hover:text-white transition-colors">What We Do</a></li>
                 <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
-                <li><a href="#chat" className="hover:text-white transition-colors">Start a Project</a></li>
+                <li><a href={`mailto:${CONTACT_EMAIL}`} onClick={(e) => { e.preventDefault(); startProject(); }} className="hover:text-white transition-colors">Start a Project</a></li>
               </ul>
             </div>
 

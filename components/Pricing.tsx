@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
+import { startProject } from '../lib/cta';
 
 const processSteps = [
   {
@@ -263,7 +264,7 @@ export const Pricing: React.FC = () => {
             </div>
 
             <button
-              onClick={() => document.getElementById('chat')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => startProject()}
               className="w-full py-4 rounded-xl font-bold bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-2"
             >
               Let's Talk About Your Project
