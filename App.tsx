@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { MarqueeLogos } from './components/MarqueeLogos';
 import { Features } from './components/Features';
+import { HowWeBuild } from './components/HowWeBuild';
 import { Pricing } from './components/Pricing';
 // import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
         <Hero />
         {/* <MarqueeLogos /> */}
         <Features />
+        <HowWeBuild />
         <Pricing />
         {/* <Testimonials /> */}
         {isLocalDev && (
