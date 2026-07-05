@@ -7,7 +7,13 @@ export default {
   ],
   theme: {
     extend: {
+      // NOTE: this JS config is not wired into the Tailwind v4 build (no
+      // `@config` directive in index.css). The live font system lives in
+      // index.css: body → Source Sans 3, headings → Inter. Kept in sync here
+      // for documentation and in case the config is ever loaded.
       fontFamily: {
+        'sans': ['Source Sans 3', 'sans-serif'],
+        'display': ['Inter', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
       },
       animation: {

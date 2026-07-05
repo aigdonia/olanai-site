@@ -338,7 +338,7 @@ export const ChatWithAI: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">
             Let's Talk
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Tell Goss what you're trying to build or solve. He'll help you gauge scope, approach, and fit — no commitment required.
           </p>
         </div>
@@ -451,7 +451,7 @@ export const ChatWithAI: React.FC = () => {
                 </p>
                 <a
                   href="mailto:hello@olanai.tech"
-                  className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-full font-medium transition-colors"
+                  className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-full font-medium transition-colors font-display"
                 >
                   hello@olanai.tech
                   <Send className="w-4 h-4" />
@@ -487,7 +487,7 @@ export const ChatWithAI: React.FC = () => {
                 {messages.length > 1 && (
                   <button
                     onClick={handleClearChat}
-                    className="mt-2 text-gray-500 hover:text-gray-300 text-xs flex items-center gap-1 transition-colors"
+                    className="mt-2 text-gray-400 hover:text-gray-200 text-xs flex items-center gap-1 transition-colors"
                   >
                     <RotateCcw className="w-3 h-3" />
                     Clear conversation
@@ -500,10 +500,10 @@ export const ChatWithAI: React.FC = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-12">
-          <p className="text-gray-400 mb-6">Prefer email? Reach out directly.</p>
+          <p className="text-gray-300 mb-6">Prefer email? Reach out directly.</p>
           <a
             href="mailto:hello@olanai.tech"
-            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors duration-200 flex items-center gap-2 mx-auto inline-flex"
+            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors duration-200 flex items-center gap-2 mx-auto inline-flex font-display"
           >
             hello@olanai.tech
             <Send className="w-4 h-4" />
@@ -518,7 +518,7 @@ export const ChatWithAI: React.FC = () => {
 
 const ChipRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
   <div className="mt-3 flex flex-col items-start gap-2">
-    <span className="text-xs text-gray-500">{label}</span>
+    <span className="text-xs text-gray-400">{label}</span>
     {children}
   </div>
 );

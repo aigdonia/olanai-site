@@ -78,7 +78,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => startProject()}
-              className={`bg-white text-black px-5 py-2 rounded-full text-xs font-bold transition-all duration-500 hover:bg-gray-200 flex items-center gap-2 group ${
+              className={`bg-white text-black px-5 py-2 rounded-full text-xs font-bold font-display transition-all duration-500 hover:bg-gray-200 flex items-center gap-2 group ${
                 isScrolled ? 'scale-95' : 'scale-100'
               }`}
             >
@@ -131,7 +131,7 @@ export const Navbar: React.FC = () => {
               setIsMobileMenuOpen(false);
               startProject();
             }}
-            className="w-full bg-white text-black px-5 py-3 rounded-xl text-center font-bold shadow-xl"
+            className="w-full bg-white text-black px-5 py-3 rounded-xl text-center font-bold shadow-xl font-display"
           >
             Let's Talk
           </button>

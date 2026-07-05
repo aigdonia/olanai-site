@@ -3,8 +3,25 @@
 body {
   background-color: #000;
   color: #fff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
   overflow-x: hidden;
+}
+
+/* Display type stays Inter — its tight geometry reads sharp in the
+   gradient-clipped hero and section headings. Every paragraph, lead, and
+   label rides on Source Sans 3 (set on body above): warmer and the most
+   legible of the family in long form. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Inter also carries the punchy, brand-forward bits that aren't headings:
+   the hero value-prop line and CTAs/buttons. Add `font-display` to opt an
+   element back into Inter. (Feature-card labels are <h4>, already Inter.) */
+.font-display {
+  font-family: 'Inter', sans-serif;
 }
 
 .gradient-blur {

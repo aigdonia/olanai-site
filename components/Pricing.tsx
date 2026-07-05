@@ -140,7 +140,7 @@ const AnimatedTimeline: React.FC = () => {
               <div className={`mt-2 overflow-hidden transition-all duration-500 ${
                 i === activeStep ? 'max-h-24 opacity-100' : 'max-h-0 md:max-h-24 opacity-0 md:opacity-50'
               }`}>
-                <p className="text-gray-400 text-sm leading-relaxed px-2">
+                <p className="text-gray-300 text-sm leading-relaxed px-2">
                   {item.description}
                 </p>
               </div>
@@ -157,7 +157,7 @@ const AnimatedTimeline: React.FC = () => {
           </div>
           <h4 className="text-xl font-bold">{processSteps[activeStep].title}</h4>
         </div>
-        <p className="text-gray-400 leading-relaxed">{processSteps[activeStep].description}</p>
+        <p className="text-gray-300 leading-relaxed">{processSteps[activeStep].description}</p>
       </div>
 
       {/* Step Indicators (Mobile) */}
@@ -186,7 +186,7 @@ const StaticGrid: React.FC = () => (
       >
         <div className="text-4xl font-bold text-purple-500/30 mb-4">{item.step}</div>
         <h4 className="text-xl font-bold mb-2">{item.title}</h4>
-        <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+        <p className="text-gray-300 text-sm leading-relaxed">{item.description}</p>
       </div>
     ))}
   </div>
@@ -202,7 +202,7 @@ export const Pricing: React.FC = () => {
         <div className="text-center mb-16">
           <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">How We Work</h2>
           <h3 className="text-4xl md:text-5xl font-bold mb-6">Predictable costs. Clear milestones.</h3>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             No retainers. No hourly billing surprises. You pay for deliverables, and you own everything we build.
           </p>
         </div>
@@ -222,7 +222,7 @@ export const Pricing: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               viewMode === 'animated'
                 ? 'bg-purple-500 text-white'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10'
             }`}
           >
             Timeline View
@@ -232,7 +232,7 @@ export const Pricing: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               viewMode === 'static'
                 ? 'bg-purple-500 text-white'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10'
             }`}
           >
             Card View
@@ -248,7 +248,7 @@ export const Pricing: React.FC = () => {
           <div className="relative p-8 md:p-12 rounded-3xl bg-white/[0.03] border border-purple-500/30 shadow-[0_0_40px_-10px_rgba(168,85,247,0.2)]">
             <div className="text-center mb-8">
               <h4 className="text-2xl md:text-3xl font-bold mb-4">Every project starts with a conversation</h4>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed">
                 We scope together, agree on milestones, and you only pay for what gets delivered.
                 No open-ended retainers. No runaway budgets. Just clear phases with clear outcomes.
               </p>
@@ -265,7 +265,7 @@ export const Pricing: React.FC = () => {
 
             <button
               onClick={() => startProject()}
-              className="w-full py-4 rounded-xl font-bold bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-xl font-bold bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-2 font-display"
             >
               Let's Talk About Your Project
               <ArrowRight className="w-5 h-5" />

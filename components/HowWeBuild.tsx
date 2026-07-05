@@ -38,7 +38,7 @@ export const HowWeBuild: React.FC = () => {
         <div className="text-center mb-16">
           <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">How We Build</h2>
           <h3 className="text-4xl md:text-5xl font-bold mb-6">Engineering discipline, by default</h3>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             AI accelerates the work. Engineering keeps it standing.
           </p>
         </div>
@@ -65,7 +65,7 @@ export const HowWeBuild: React.FC = () => {
                   aria-label={p.title}
                 />
                 <h4 className="text-xl font-bold mb-3">{p.title}</h4>
-                <p className="text-gray-400 leading-relaxed text-sm">{p.description}</p>
+                <p className="text-gray-300 leading-relaxed text-sm">{p.description}</p>
               </div>
             </div>
           ))}

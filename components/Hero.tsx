@@ -17,12 +17,12 @@ export const Hero: React.FC = () => {
         </h1>
 
         {/* Value prop — the 3-second "what / who" */}
-        <p className="max-w-2xl mx-auto text-gray-300 text-xl md:text-2xl font-medium mb-6">
+        <p className="max-w-2xl mx-auto text-gray-300 text-xl md:text-2xl font-medium mb-6 font-display">
           We design and build SaaS platforms, internal tools, and AI systems for growing businesses.
         </p>
 
         {/* Description */}
-        <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-10 leading-relaxed">
+        <p className="max-w-2xl mx-auto text-gray-300 text-lg md:text-xl mb-10 leading-relaxed">
           Vibe coding ships fast but creates chaos. We bring engineering discipline to AI-powered development. We use this approach to build our own internal tooling — so we know it works before we use it on yours.
         </p>
 
@@ -30,14 +30,14 @@ export const Hero: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
           <button
             onClick={() => startProject()}
-            className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center justify-center gap-2 font-display"
           >
             Start a Project
             <ArrowRight className="w-5 h-5" />
           </button>
           <button
             onClick={() => document.getElementById('how-we-work')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all"
+            className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all font-display"
           >
             How We Work
           </button>
@@ -96,7 +96,7 @@ export const Hero: React.FC = () => {
 
               {/* Input bar */}
               <div className="mt-auto flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5">
-                <span className="text-gray-500 text-sm">Describe your project…</span>
+                <span className="text-gray-400 text-sm">Describe your project…</span>
                 <span className="ml-auto w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
                   <Send className="w-4 h-4 text-white" />
                 </span>
@@ -107,7 +107,7 @@ export const Hero: React.FC = () => {
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-500 pointer-events-none group-hover:pointer-events-auto focus-within:pointer-events-auto">
               <button
                 onClick={() => startProject()}
-                className="px-8 py-5 bg-white text-black text-lg font-bold rounded-full hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-2xl"
+                className="px-8 py-5 bg-white text-black text-lg font-bold rounded-full hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-2xl font-display"
               >
                 Tell us what you're building
                 <ArrowRight className="w-5 h-5" />

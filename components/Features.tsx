@@ -42,7 +42,7 @@ export const Features: React.FC = () => {
         <div className="text-center mb-16">
           <h2 className="text-purple-500 font-semibold tracking-wider uppercase text-sm mb-3">What We Do</h2>
           <h3 className="text-4xl md:text-5xl font-bold mb-6">Digital transformation, done right</h3>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             We help SMBs go digital without the chaos. Real engineers using AI to build software that actually works.
           </p>
         </div>
@@ -73,11 +73,11 @@ export const Features: React.FC = () => {
                   <h4 className="text-2xl font-bold">{feature.title}</h4>
                 </div>
 
-                <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                <p className="text-gray-300 leading-relaxed">{feature.description}</p>
 
                 <button
                   onClick={() => startProject(feature.chatPrompt)}
-                  className="mt-6 flex items-center text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+                  className="mt-6 flex items-center text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors font-display"
                 >
                   Learn more
                   <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>

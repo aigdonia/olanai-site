@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
                 className="text-[#7c3aed]"
               />
             </div>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-300 mb-6">
               AI-powered software delivery with engineering discipline. We build our own internal tooling with this approach — so we know it works.
             </p>
           </div>
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
           <div className="flex gap-16">
             <div>
               <h4 className="font-bold mb-6">Services</h4>
-              <ul className="space-y-4 text-gray-400 text-sm">
+              <ul className="space-y-4 text-gray-300 text-sm">
                 <li><a href="#features" className="hover:text-white transition-colors">What We Do</a></li>
                 <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
                 <li><a href={`mailto:${CONTACT_EMAIL}`} onClick={(e) => { e.preventDefault(); startProject(); }} className="hover:text-white transition-colors">Start a Project</a></li>
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
           <p>© 2025 OlanAI. All rights reserved.</p>
         </div>
       </div>
